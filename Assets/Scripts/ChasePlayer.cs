@@ -6,26 +6,20 @@ public class ChasePlayer : MonoBehaviour
 {
     [SerializeField] private Transform playerTransform; // Transform del jugador.
 
-    private Vector3 offsetXZ; // Diferencia inicial en X y Z entre el objeto y el jugador.
-    private float fixedY;     // Altura fija del objeto.
+    private Vector3 offset; // Diferencia inicial en X, Y y Z entre el objeto y el jugador.
 
     void Start()
     {
         if (playerTransform == null)
         {
-            Debug.LogError("Player Transform no est· asignado en el script ChasePlayerWithXZOffset.");
+            Debug.LogError("Player Transform no est√° asignado en el script ChasePlayer.");
             return;
         }
 
-        // Calcula la diferencia inicial en X y Z.
-        offsetXZ = new Vector3(
-            transform.position.x - playerTransform.position.x,
-            0, // Ignorar la componente Y.
-            transform.position.z - playerTransform.position.z
-        );
+        // Calcula la diferencia inicial en X, Y y Z.
+        offset = transform.position - playerTransform.position;
 
-        // Guarda la altura fija del objeto.
-        fixedY = transform.position.y;
+        Cursor.visible = false;
     }
 
     void Update()
@@ -33,12 +27,7 @@ public class ChasePlayer : MonoBehaviour
         if (playerTransform == null)
             return;
 
-        // Calcula la nueva posiciÛn manteniendo el offset en X y Z, y fija en Y.
-        transform.position = new Vector3(
-            playerTransform.position.x + offsetXZ.x,
-            fixedY,
-            playerTransform.position.z + offsetXZ.z
-        );
+        // Calcula la nueva posici√≥n manteniendo el offset en X, Y y Z.
+        transform.position = playerTransform.position + offset;
     }
-
 }
